@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORiEL - Living Spaces</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-green: #2d4a3c;
+            --sage-green: #6b8e7f;
+            --light-cream: #f5f3f0;
+            --warm-beige: #d4c5b9;
+            --earth-brown: #8b7355;
+            --accent-gold: #c4a66f;
+            --text-dark: #3a3a3a;
+            --text-light: #6b6b6b;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--light-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--light-cream);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(45, 74, 60, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--sage-green);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-green);
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Page */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-cream) 0%, rgba(214, 197, 185, 0.3) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(107, 142, 127, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 800px;
+            padding: 2rem;
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero img {
+            width: 280px;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--dark-green);
+            color: var(--light-cream);
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 1px;
+            border: 2px solid var(--dark-green);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border-radius: 2px;
+        }
+
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--dark-green);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        section {
+            padding: 5rem 0;
+        }
+
+        section.intro {
+            padding: 4rem 0;
+            background-color: rgba(107, 142, 127, 0.05);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* About Page */
+        .about-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-cream) 0%, rgba(45, 74, 60, 0.05) 100%);
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .about-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .about-text strong {
+            color: var(--dark-green);
+            font-weight: 600;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            background-color: rgba(107, 142, 127, 0.1);
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            opacity: 1;
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(45, 74, 60, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-green);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--warm-beige);
+            border-radius: 2px;
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--sage-green);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--dark-green);
+            color: var(--light-cream);
+            border: none;
+            border-radius: 2px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .submit-button:hover {
+            background-color: var(--sage-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 74, 60, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-green);
+            color: var(--light-cream);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 5rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        footer p {
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--light-cream);
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem 2rem;
+                border-bottom: 1px solid rgba(45, 74, 60, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero img {
+                width: 200px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+
+            section {
+                padding: 3rem 0;
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-hero {
+                min-height: 40vh;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=" alt="ORiEL Logo">
+                <span class="logo-text">ORiEL</span>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('about')" class="nav-link">About</a></li>
+                <li><a href="#" onclick="showPage('art')" class="nav-link">Art Corner</a></li>
+                <li><a href="#" onclick="showPage('crafts')" class="nav-link">Home Crafts</a></li>
+                <li><a href="#" onclick="showPage('transformation')" class="nav-link">Projects</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="hero-content">
+                <svg width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="140" cy="140" r="130" fill="#f5f3f0" stroke="#d4c5b9" stroke-width="2"/>
+                    <path d="M 80 120 Q 100 100 120 110" stroke="#8b7355" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 150 100 Q 170 85 180 105" stroke="#8b7355" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    
+                    <!-- ORiEL Text Placeholder -->
+                    <text x="140" y="155" font-family="'Playfair Display', serif" font-size="48" font-weight="600" fill="#2d4a3c" text-anchor="middle">ORiEL</text>
+                    <text x="140" y="175" font-family="'DM Sans', sans-serif" font-size="14" fill="#6b8e7f" text-anchor="middle" letter-spacing="2">LIVING SPACES</text>
+                    
+                    <!-- Decorative Elements -->
+                    <g id="leaves-1">
+                        <ellipse cx="95" cy="115" rx="4" ry="8" fill="#2d4a3c" transform="rotate(-30 95 115)"/>
+                        <ellipse cx="100" cy="108" rx="3" ry="6" fill="#2d4a3c" transform="rotate(-20 100 108)"/>
+                    </g>
+                    <g id="leaves-2">
+                        <ellipse cx="175" cy="100" rx="4" ry="8" fill="#2d4a3c" transform="rotate(30 175 100)"/>
+                        <ellipse cx="170" cy="107" rx="3" ry="6" fill="#2d4a3c" transform="rotate(20 170 107)"/>
+                    </g>
+                </svg>
+                <h1>Where Light Finds Its Place</h1>
+                <p>CURATED LIVING • THOUGHTFUL SPACES</p>
+                <a href="#" onclick="showPage('about')" class="cta-button">Explore Our Story</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="about-hero">
+            <div class="about-content">
+                <h1>About ORiEL</h1>
+            </div>
+        </div>
+
+        <section class="intro">
+            <div class="container">
+                <div class="about-text">
+                    <p><strong>Where light finds its place.</strong></p>
+                    <p>ORiEL is a home-grown collection of living plants, thoughtful décor, and quiet details curated for everyday spaces.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="about-text">
+                    <p>Inspired by the way light rests in corners, on windowsills, and across still rooms, ORiEL brings together plants in glass, rooted forms, natural textures, and artful accents that belong — not as decoration, but as part of living.</p>
+                    <p>Each piece is chosen or created with care, designed to settle gently into your home. Along with every plant comes simple guidance, nurturing essentials, and an invitation to grow it with ease.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="background-color: rgba(107, 142, 127, 0.05);">
+            <div class="container">
+                <div class="about-text">
+                    <p><strong>ORiEL is not a store.</strong></p>
+                    <p>It is a lived space — one where light, life, and home meet naturally.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Art Corner Page -->
+    <div id="art" class="page">
+        <section>
+            <div class="container">
+                <h2 class="section-title">Art Corner</h2>
+                <p class="section-subtitle">Curated Art & Creative Expressions</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Art 1">
+                        <div class="gallery-item-overlay">Art Piece</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Art 2">
+                        <div class="gallery-item-overlay">Watercolor</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Art 3">
+                        <div class="gallery-item-overlay">Illustrations</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Art 4">
+                        <div class="gallery-item-overlay">Mixed Media</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Art 5">
+                        <div class="gallery-item-overlay">Digital Art</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Art 6">
+                        <div class="gallery-item-overlay">Artistic Vision</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Home Crafts Page -->
+    <div id="crafts" class="page">
+        <section>
+            <div class="container">
+                <h2 class="section-title">Home Crafts</h2>
+                <p class="section-subtitle">DIY Projects & Handmade Décor</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Craft 1">
+                        <div class="gallery-item-overlay">DIY Plant Pots</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Craft 2">
+                        <div class="gallery-item-overlay">Wall Décor</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Craft 3">
+                        <div class="gallery-item-overlay">Terrariums</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Craft 4">
+                        <div class="gallery-item-overlay">Macramé</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Craft 5">
+                        <div class="gallery-item-overlay">Painted Accents</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Craft 6">
+                        <div class="gallery-item-overlay">Crafted Details</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Home Transformation Page -->
+    <div id="transformation" class="page">
+        <section>
+            <div class="container">
+                <h2 class="section-title">Home Transformation Projects</h2>
+                <p class="section-subtitle">Before & After Spaces We've Curated</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Project 1">
+                        <div class="gallery-item-overlay">Living Room</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Project 2">
+                        <div class="gallery-item-overlay">Bedroom Oasis</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Project 3">
+                        <div class="gallery-item-overlay">Corner Nook</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1577720643272-265dc8bdf14b?w=500&h=500&fit=crop" alt="Project 4">
+                        <div class="gallery-item-overlay">Kitchen Space</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop" alt="Project 5">
+                        <div class="gallery-item-overlay">Home Office</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1578062158088-d88301d81c0e?w=500&h=500&fit=crop" alt="Project 6">
+                        <div class="gallery-item-overlay">Entryway</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section>
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">We'd Love To Hear From You</p>
+                
+                <div class="contact-form">
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 ORiEL Living Spaces. Where light finds its place.</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update active nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Close mobile menu
+            closeMenu();
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Create mailto link
+            const mailtoLink = `mailto:info@oriel.com?subject=${encodeURIComponent(subject)}&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A%0AMessage:%0A${encodeURIComponent(message)}`;
+            
+            window.location.href = mailtoLink;
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+    </script>
+</body>
+</html>
